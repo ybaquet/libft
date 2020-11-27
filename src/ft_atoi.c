@@ -11,10 +11,11 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-int		ft_atoi(const char *str)
+int			ft_atoi(const char *str)
 {
-	int result;
+	long long result;
 	int sign;
 
 	result = 0;

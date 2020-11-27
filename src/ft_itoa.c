@@ -47,7 +47,7 @@ static int	intlen(int n)
 		len++;
 		n = n / 10;
 	}
-	return (len++);
+	return (len + 2);
 }
 
 char		*ft_itoa(int n)
@@ -65,11 +65,10 @@ char		*ft_itoa(int n)
 		return (pt);
 	}
 	len = intlen(n);
-	if (!(pt = malloc(sizeof(char) * len + 1)))
+	if (!(pt = malloc(sizeof(char) * len)))
 		return (NULL);
-	pt2 = pt;
-	pt = pt + len;
+	pt = pt + len - 1;
 	*pt = 0;
-	putnbr(pt, n);
-	return (pt2);
+	pt = putnbr(pt, n);
+	return (pt);
 }

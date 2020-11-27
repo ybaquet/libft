@@ -15,8 +15,10 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
-//#include <ctype.h>
-//#include <limits.h>
+#include <ctype.h>
+#include <sys/mman.h>
+
+#include <limits.h>
 #include "../libft.h"
 
 //	const char str1[] = "CeciEstUneCourtePhrase";
@@ -28,39 +30,33 @@
 //
 //	printf("<%d>, <%d>\n", ft_atoi("-123"), atoi("-123"));
 
-void	ft_clean(void *content)
-{
-	printf("Freeing : %i\n", *((int*)content));
+void ft_clean(void *content) {
+	printf("Freeing : %i\n", *((int*) content));
 }
 
-void	ft_del(void *content)
-{
-	*(int*)content = 0;
-	return ;
+void ft_del(void *content) {
+	*(int*) content = 0;
+	return;
 }
 
-void	ft_it(void *content)
-{
-	printf("%i ", *((int*)content));
+void ft_it(void *content) {
+	printf("%i ", *((int*) content));
 }
 
-void	*ft_m(void *content)
-{
-	void	*newcontent;
+void* ft_m(void *content) {
+	void *newcontent;
 
 	newcontent = malloc(sizeof(int));
-	*((int*)newcontent) = *((int*)content) + 10;
+	*((int*) newcontent) = *((int*) content) + 10;
 	return (newcontent);
 }
 
-char	ft_test(unsigned int i, char c)
-{
+char ft_test(unsigned int i, char c) {
 	i = 0;
 	return (c - 32);
 }
 
-int		main(void)
-{
+void test1(void) {
 	printf("Test de ft_memset :\n");
 	char s[100] = "aaaaa";
 	char sbis[100] = "aaaaa";
@@ -73,18 +69,23 @@ int		main(void)
 	strcpy(sbis, s);
 	bzero(s, 3);
 	ft_bzero(sbis, 3);
-	int		i;
+	int i;
 	i = 0;
 	while (i < 5 && s[i] == sbis[i])
 		i++;
 	if (i == 5)
 		printf("OK\n");
 	else
-		printf("Failed : expected [%c][%c][%c][%c][%c], got [%c][%c][%c][%c][%c].\n", s[0], s[1], s[2], s[3], s[4], sbis[0], sbis[1], sbis[2], sbis[3], sbis[4]);
+		printf(
+				"Failed : expected [%c][%c][%c][%c][%c], got [%c][%c][%c][%c][%c].\n",
+				s[0], s[1], s[2], s[3], s[4], sbis[0], sbis[1], sbis[2],
+				sbis[3], sbis[4]);
 
 	printf("Test de ft_memcpy :\n");
 	strcpy(sbis, s);
-	if (!strcmp(memcpy(s, "source", 3), ft_memcpy(sbis, "source", 3)) && !strcmp(memcpy(s, "2emesource", 8), ft_memcpy(sbis, "2emesource", 8)))
+	if (!strcmp(memcpy(s, "source", 3), ft_memcpy(sbis, "source", 3))
+			&& !strcmp(memcpy(s, "2emesource", 8),
+					ft_memcpy(sbis, "2emesource", 8)))
 		printf("OK\n");
 	else
 		printf("Failed : expected '%s', got '%s'.\n", s, sbis);
@@ -92,7 +93,11 @@ int		main(void)
 	printf("Test de ft_memccpy :\n");
 	char dst[100] = "destination";
 	char dst2[100] = "destination";
-	if (memccpy(dst, "source", ' ', 8) == ft_memccpy(dst2, "source", ' ', 8) && !strcmp(dst, dst2) && (char*)memccpy(dst, "2emesource", 'e', 8) - dst == (char*)ft_memccpy(dst2, "2emesource", 'e', 8) - dst2 && !strcmp(dst, dst2))
+	if (memccpy(dst, "source", ' ', 8) == ft_memccpy(dst2, "source", ' ', 8)
+			&& !strcmp(dst, dst2)
+			&& (char*) memccpy(dst, "2emesource", 'e', 8) - dst
+					== (char*) ft_memccpy(dst2, "2emesource", 'e', 8) - dst2
+			&& !strcmp(dst, dst2))
 		printf("OK\n");
 	else
 		printf("Failed.\n");
@@ -100,26 +105,34 @@ int		main(void)
 	printf("Test de ft_memmove :\n");
 	char s1[] = "string test";
 	char s2[] = "string test";
-	if (!strcmp(memmove(s1, s1 + 3, 5), ft_memmove(s2, s2 + 3, 5)) && !strcmp(memmove(s1 + 3, s1, 5), ft_memmove(s2 + 3, s2, 5)))
+	if (!strcmp(memmove(s1, s1 + 3, 5), ft_memmove(s2, s2 + 3, 5))
+			&& !strcmp(memmove(s1 + 3, s1, 5), ft_memmove(s2 + 3, s2, 5)))
 		printf("OK\n");
 	else
-		printf("Failed (tests : ft_memmove(s, s + 3, 5) and ft_memmove(s + 3, s, 5)).\n");
+		printf(
+				"Failed (tests : ft_memmove(s, s + 3, 5) and ft_memmove(s + 3, s, 5)).\n");
 
 	printf("Test de ft_memchr : \n");
-	if (memchr("source", 'r', 2) == ft_memchr("source", 'r', 2) && !strcmp(memchr("source", 'r', 5), ft_memchr("source", 'r', 5)))
+	if (memchr("source", 'r', 2) == ft_memchr("source", 'r', 2)
+			&& !strcmp(memchr("source", 'r', 5), ft_memchr("source", 'r', 5)))
 		printf("OK\n");
 	else
 		printf("Failed.\n");
 
 	printf("\nTest de ft_memcmp : \n");
-	printf("%d : %d\n", ft_memcmp("test", "test", 4), memcmp("test", "test", 4));
+	printf("%d : %d\n", ft_memcmp("test", "test", 4),
+			memcmp("test", "test", 4));
 	printf("%d : %d\n", ft_memcmp("", "test", 4), memcmp("", "test", 4));
 	printf("%d : %d\n", ft_memcmp("test", "", 4), memcmp("test", "", 4));
-	printf("%d : %d\n", ft_memcmp("test", "test", 4), memcmp("test", "test", 4));
-	printf("%d : %d\n", ft_memcmp("test", "test2", 5), memcmp("test", "test2", 5));
-	printf("%d : %d\n", ft_memcmp("test", "test2", 4), memcmp("test", "test2", 4));
+	printf("%d : %d\n", ft_memcmp("test", "test", 4),
+			memcmp("test", "test", 4));
+	printf("%d : %d\n", ft_memcmp("test", "test2", 5),
+			memcmp("test", "test2", 5));
+	printf("%d : %d\n", ft_memcmp("test", "test2", 4),
+			memcmp("test", "test2", 4));
 	printf("%d : %d\n", ft_memcmp("\200", "\0", 4), ft_memcmp("\200", "\0", 4));
-	printf("%d : %d\n", ft_memcmp("tesu", "test", 6), ft_memcmp("tesu", "test", 6));
+	printf("%d : %d\n", ft_memcmp("tesu", "test", 6),
+			ft_memcmp("tesu", "test", 6));
 
 	printf("\nTest de ft_strlen : \n");
 	printf("0 : %lu\n", ft_strlen(""));
@@ -208,9 +221,12 @@ int		main(void)
 	printf("10, destsource : %lu, %s\n", ft_strlcat(d7, c1, 13), d7);
 
 	printf("\nTest de ft_strnstr :\n");
-	printf("ft_strnstr(\"bonjour\", \"ou\", 13) : our : %s\n", ft_strnstr("bonjour", "ou", 13));
-	printf("ft_strnstr(\"bonjour\", \"njo\", 4) : (null) : %s\n", ft_strnstr("bonjour", "njo", 4));
-	printf("ft_strnstr(\"bonjour\", \"njo\", 5) : njour : %s\n", ft_strnstr("bonjour", "njo", 5));
+	printf("ft_strnstr(\"bonjour\", \"ou\", 13) : our : %s\n",
+			ft_strnstr("bonjour", "ou", 13));
+	printf("ft_strnstr(\"bonjour\", \"njo\", 4) : (null) : %s\n",
+			ft_strnstr("bonjour", "njo", 4));
+	printf("ft_strnstr(\"bonjour\", \"njo\", 5) : njour : %s\n",
+			ft_strnstr("bonjour", "njo", 5));
 
 	printf("\nTest de ft_atoi :\n");
 	printf("0 : %d\n", ft_atoi("0"));
@@ -242,13 +258,13 @@ int		main(void)
 	printf("njour : %s\n", ft_substr("bonjour", 2, 5));
 	printf("njour : %s\n", ft_substr("bonjour", 2, 6));
 	printf("r : %s\n", ft_substr("bonjour", 6, 1));
-	printf("'' : %s\n",	ft_substr("bonjour", 6, 0));
+	printf("'' : %s\n", ft_substr("bonjour", 6, 0));
 	char stest[100] = "test";
 	memset(stest + 6, 'a', 50);
-	printf("'' : %s\n",	ft_substr(stest, 10, 1));
+	printf("'' : %s\n", ft_substr(stest, 10, 1));
 
 	printf("\nTest de ft_strjoin :\n");
-	printf("abcdef : %s\n",	ft_strjoin("abc", "def"));
+	printf("abcdef : %s\n", ft_strjoin("abc", "def"));
 	printf("abc : %s\n", ft_strjoin("", "abc"));
 	printf("abc : %s\n", ft_strjoin("abc", ""));
 	printf("'' : %s\n", ft_strjoin("", ""));
@@ -271,40 +287,35 @@ int		main(void)
 	printf("Chaine s : 'bonjour a tous', separateur c : ' ', resultat :\n");
 	res = ft_split("bonjour a tous", ' ');
 	i = 0;
-	while (res[i])
-	{
+	while (res[i]) {
 		printf("'%s'\n", res[i]);
 		i++;
 	}
 	printf("Chaine s : ' bonjour a tous ', separateur c : ' ', resultat :\n");
 	res = ft_split(" bonjour a tous ", ' ');
 	i = 0;
-	while (res[i])
-	{
+	while (res[i]) {
 		printf("'%s'\n", res[i]);
 		i++;
 	}
 	printf("Chaine s : '   ', separateur c : ' ', resultat :\n");
 	res = ft_split("   ", ' ');
 	i = 0;
-	while (res[i])
-	{
+	while (res[i]) {
 		printf("'%s'\n", res[i]);
 		i++;
 	}
 	printf("Chaine s : ' d  ', separateur c : ' ', resultat :\n");
 	res = ft_split(" d  ", ' ');
 	i = 0;
-	while (res[i])
-	{
+	while (res[i]) {
 		printf("'%s'\n", res[i]);
 		i++;
 	}
 	printf("Chaine s : 'nosep', separateur c : ' ', resultat :\n");
 	res = ft_split("nosep", ' ');
 	i = 0;
-	while (res[i])
-	{
+	while (res[i]) {
 		printf("'%s'\n", res[i]);
 		i++;
 	}
@@ -340,8 +351,8 @@ int		main(void)
 	close(fd);
 
 	printf("\nTest de ft_putnbr_fd :");
-	printf("\n0 : \n");
-	ft_putnbr_fd(0, 1);
+	printf("\n100 : \n");
+	ft_putnbr_fd(100, 1);
 	printf("\n1 : \n");
 	ft_putnbr_fd(1, 1);
 	printf("\n100 : \n");
@@ -355,7 +366,8 @@ int		main(void)
 	fd = open("testputnbr", O_WRONLY | O_CREAT, 0777);
 	ft_putnbr_fd(-593, fd);
 	close(fd);
-	printf("\nVerifier : 'b' dans testputchar, 'def' dans testputstr, 'ghi + nl' dans testputendl, '-593' dans testputnbr\n");
+	printf(
+			"\nVerifier : 'b' dans testputchar, 'def' dans testputstr, 'ghi + nl' dans testputendl, '-593' dans testputnbr\n");
 
 //	printf("\nBONUS LISTS !\n");
 //	int		tab[20];
@@ -444,5 +456,65 @@ int		main(void)
 //		tmp = tmp->next;
 //	}
 	printf("\n");
+}
+
+void test2(void) {
+	char *src = "Bonjour";
+	int a = 10;
+	char dest[a];
+
+	size_t len = strlcpy(dest, src, 6);
+	printf("d:%lu, %s\n", len, dest);
+	len = ft_strlcpy(dest, src, 6);
+	printf("d:%lu, %s\n", len, dest);
+
+	char	*str = "BBBB";
+	char	buff1[0xF00];
+	char	buff2[0xF00];
+
+	memset(buff1, 'A', 20);
+	memset(buff2, 'A', 20);
+
+	size_t r1 = strlcpy(buff1, str, 0);
+	size_t r2 = ft_strlcpy(buff2, str, 0);
+
+		printf("%lu, %lu, %s, %s\n", r1, r2, buff1, buff2);
+}
+void test3(void) {
+	char	*str1;
+	char	*str2;
+	char	*tmp = "I malloc so I am.";
+
+	str1 = ft_strdup(tmp);
+	str2 = strdup(tmp);
+
+	printf("%s, %s\n", str1, str2);
+}
+void test4() {
+//	char	n[40];
+//	sprintf(n, "%li", LONG_MAX);
+	char n[40] = "99999999999999999999999999";
+
+	int		i1 = atoi(n);
+	int		i2 = ft_atoi(n);
+	printf("d:%d, %d\n",i1, i2);
+}
+
+char			f_strmapi(unsigned i, char c) { return (c + i); }
+
+void test5() {
+	char	*b = "override this !";
+	char	b2[0xF0];
+	size_t	size = strlen(b);
+
+	for (size_t i = 0; i < size; i++)
+		b2[i] = f_strmapi(i, b[i]);
+	b2[size] = 0;
+	char	*ret = ft_strmapi(b, f_strmapi);
+	printf("%s, %s\n", b2, ret);
+
+}
+int main(void) {
+	test1();
 	return (0);
 }
