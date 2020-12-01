@@ -19,10 +19,6 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 
 	str1 = (unsigned char *)s1;
 	str2 = (unsigned char *)s2;
-//	if (NULL == str1)
-//		return ((NULL == str2) ? 0 : -(char unsigned)*str2);
-//	if (NULL == s2)
-//		return ((NULL == str1) ? 0 : (char unsigned)*str1);
 	while (n)
 	{
 		if (*str1 != *str2)

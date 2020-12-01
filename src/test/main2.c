@@ -514,7 +514,7 @@ void test5() {
 	printf("%s, %s\n", b2, ret);
 
 }
-int main(void) {
+int main2(void) {
 	test1();
 	return (0);
 }

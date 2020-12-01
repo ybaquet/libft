@@ -6,7 +6,7 @@
 /*   By: yde-mont <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 14:28:23 by yde-mont          #+#    #+#             */
-/*   Updated: 2020/11/24 14:28:33 by yde-mont         ###   ########lyon.fr   */
+/*   Updated: 2020/11/30 11:29:56 by yde-mont         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		{
 			*dst++ = *src++;
 		}
-		*dst = 0;
+	*dst = 0;
 	return (len);
 }

@@ -6,7 +6,7 @@
 /*   By: yde-mont <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 13:19:57 by yde-mont          #+#    #+#             */
-/*   Updated: 2020/11/26 13:20:20 by yde-mont         ###   ########lyon.fr   */
+/*   Updated: 2020/11/30 11:32:52 by yde-mont         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void		ft_iota(int n, int fd)
 	}
 }
 
-void	ft_putnbr_fd(int n, int fd)
+void		ft_putnbr_fd(int n, int fd)
 {
 	char	tab[11];
 	char	*s;

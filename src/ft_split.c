@@ -20,51 +20,55 @@ static int	sep_count(char const *s1, char c)
 	nb = 0;
 	while (*s1)
 	{
-		if (*s1++ == c)
+		while (*s1 == c && *s1)
+			s1++;
+		if (*s1)
 			nb++;
+		while (*s1 != c && *s1)
+			s1++;
 	}
 	return (nb);
 }
 
-static char	*increment(char *pt, unsigned int *index)
+int static	next_word(const char *s1, char c, char **result, int start)
 {
-	(*index)++;
-	return (++pt);
-}
+	const char	*pt;
+	int			len;
+	int			i;
 
-void		split_(const char *str, char c, char **work)
-{
-	unsigned int	start;
-	size_t			len;
-	char			*s_work;
-
-	s_work = (char *)str;
-	start = 0;
-	while (*s_work)
+	pt = s1 + start;
+	len = 0;
+	i = 0;
+	while(*pt == c && *pt)
 	{
-		while (*s_work == c && *s_work)
-			s_work = increment(s_work, &start);
-		len = 0;
-		while (*s_work != c && *s_work)
-		{
-			s_work++;
-			len++;
-		}
-		if (0 < len)
-		{
-			*work++ = ft_substr(str, start, len);
-			start = start + len;
-		}
+		start++;
+		pt++;
+		i++;
 	}
-	*work = NULL;
+	while(*pt != c && *pt)
+	{
+		len++;
+		pt++;
+	}
+	if (0 == len)
+		*result = NULL;
+	else
+		*result = ft_substr(s1, start, len);
+	return len + i	;
 }
 
 char		**ft_split(char const *s1, char c)
 {
-	char			**result;
+	char	**work;
+	char	**result;
+	int		start;
+	int 	len;
 
-	if (!(result = malloc(sizeof(char *) * sep_count(s1, c) + 1)))
+	if (!(result = malloc(sizeof(char *) * (sep_count(s1, c) + 1))))
 		return (NULL);
-	split_(s1, c, result);
+	start = 0;
+	work = result;
+	while ((len = next_word(s1, c, work++, start)))
+			start = start + len;
 	return (result);
 }
