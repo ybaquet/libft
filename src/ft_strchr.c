@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yde-mont <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/24 14:27:21 by yde-mont          #+#    #+#             */
-/*   Updated: 2020/11/24 14:27:44 by yde-mont         ###   ########lyon.fr   */
+/*   Created: 2020/11/24 14:37:29 by yde-mont          #+#    #+#             */
+/*   Updated: 2020/11/24 14:37:45 by yde-mont         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
-	char *pt;
-
-	pt = NULL;
 	while (*s)
 	{
 		if (*s == c)
-			pt = (char *)s;
+			return ((char *)s);
 		s++;
 	}
-	if (!c)
-		pt = (char *)s;
-	return (pt);
+	return (c ? NULL : (char *)s);
 }

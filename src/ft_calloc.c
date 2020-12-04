@@ -19,7 +19,8 @@ void	*ft_calloc(size_t count, size_t size)
 	char	*pt2;
 
 	len = count * size;
-	pt = malloc(len);
+	if (!(pt = malloc(len)))
+		return (NULL);
 	pt2 = pt;
 	if (NULL != pt)
 		while (len--)

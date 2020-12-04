@@ -13,62 +13,27 @@
 #include <stdlib.h>
 #include "libft.h"
 
-static char	*putnbr(char *pt, int nb)
+char	*ft_itoa(int nbr)
 {
-	int sign;
+	char		*pt;
+	int			len;
+	long long	n;
 
-	sign = 0 > nb ? 1 : 0;
-	if (sign)
-		nb *= -1;
-	while (nb > 9)
+	n = nbr;
+	len = (n <= 0) ? 1 : 0;
+	n = (n < 0) ? -n : n;
+	while (nbr)
+		nbr = (len++) ? nbr / 10 : nbr / 10;
+	nbr = n ? 1 : 0;
+	if (!(pt = ft_calloc(1, len + 1)))
+		return (NULL);
+	pt[len] = 0;
+	while (len && n)
 	{
-		--pt;
-		*pt = '0' + (nb % 10);
-		nb = nb / 10;
-	}
-	*--pt = '0' + nb % 10;
-	if (sign)
-		*--pt = '-';
-	return (pt);
-}
-
-static int	intlen(int n)
-{
-	int len;
-
-	len = 0;
-	if (n < 0)
-	{
-		len++;
-		n = -n;
-	}
-	while (n > 9)
-	{
-		len++;
+		pt[--len] = n % 10 + 48;
 		n = n / 10;
 	}
-	return (len + 2);
-}
-
-char		*ft_itoa(int n)
-{
-	char	*pt;
-	char	*pt2;
-	int		len;
-
-	if (-2147483648 == n)
-	{
-		if (!(pt = malloc(sizeof(char) * 11 + 1)))
-			return (NULL);
-		pt2 = "-2147483648";
-		ft_memcpy(pt, pt2, 11);
-		return (pt);
-	}
-	len = intlen(n);
-	if (!(pt = malloc(sizeof(char) * len)))
-		return (NULL);
-	pt = pt + len - 1;
-	*pt = 0;
-	pt = putnbr(pt, n);
+	if (len)
+		pt[0] = nbr ? '-' : '0';
 	return (pt);
 }
