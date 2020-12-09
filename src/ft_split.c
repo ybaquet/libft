@@ -30,6 +30,14 @@ static int	sep_count(char const *s1, char c)
 	return (nb);
 }
 
+static int	clear(char **result, int nb_words)
+{
+	while (nb_words--)
+		free(*--result);
+	*result = NULL;
+	return (0);
+}
+
 static int	next_word(const char *s1, char c, char **result, int start)
 {
 	const char	*pt;
@@ -47,13 +55,13 @@ static int	next_word(const char *s1, char c, char **result, int start)
 	}
 	while (*pt != c && *pt)
 	{
-		len++;
 		pt++;
+		len++;
 	}
 	if (0 == len)
 		*result = NULL;
-	else
-		*result = ft_substr(s1, start, len);
+	else if (!(*result = ft_substr(s1, start, len)))
+		return (-1);
 	return (len + i);
 }
 
@@ -63,15 +71,20 @@ char		**ft_split(char const *s1, char c)
 	char	**result;
 	int		start;
 	int		len;
+	int		nb_words;
 
+	nb_words = 0;
 	if (!(result = malloc(sizeof(char *) * (sep_count(s1, c) + 1))))
 		return (NULL);
 	start = 0;
 	work = result;
-	while ((len = next_word(s1, c, work, start)) && NULL != *work)
+	while (0 < (len = next_word(s1, c, work, start)) && NULL != *work)
 	{
 		start = start + len;
 		work++;
+		nb_words++;
 	}
+	if (-1 == len)
+		clear(result, nb_words);
 	return (result);
 }
