@@ -6,7 +6,7 @@
 #    By: yde-mont <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/24 15:02:11 by yde-mont          #+#    #+#              #
-#    Updated: 2020/12/04 09:53:46 by yde-mont         ###   ########lyon.fr    #
+#    Updated: 2020/12/09 08:45:59 by yde-mont         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,12 +39,12 @@ NAME		= libft.a
 all:		${NAME}
 
 $(NAME):	${OBJ}
-				${AR} $@ ${OBJ}
+				${AR} $@ $<
 
 bonus:		${OBJ} ${OBJB}
 				${AR} ${NAME} ${OBJ} ${OBJB}  
 clean:
-				rm -f ${OBJ}
+				rm -f ${OBJ} ${OBJB}
 
 fclean:		clean
 				rm -f ${NAME}
